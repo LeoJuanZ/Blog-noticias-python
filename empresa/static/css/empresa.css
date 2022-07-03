@@ -487,6 +487,16 @@
         }
     }
 
+    .tarjeta_info p {
+        margin-right: 1em;
+        margin-top: 1em;
+        display: inline-flex;
+    }
+
+    .tarjeta_info p i {
+        margin-right: .5em;
+    }
+
     a.leer_mas{
         display: inline-block;
         margin-top: 20px!important;
@@ -516,16 +526,23 @@
     .noticia{
         padding: 3em;
         background-color: #ffffff;
-        border: 1px solid #797979;
+        border: 1px solid #cccccc;
+        box-shadow: 2px 2px 5px #cccccc;
         margin-bottom: 2em;
     }
 
     .contenedor.noticia {
         max-width: 1100px;
+        border-radius: .5em;
+    }
+
+    .contenedor.noticia .container {
+        padding-left: 0px;
     }
 
     a.regresar {
         position: absolute;
+        border-radius: .5em;
         max-height: 90px;
         color: #ffffff;
         background-color: #ff6600;

@@ -6,21 +6,27 @@
 
     <div class="contenedor noticia">
         
-        <div class="container mb-5">
+        <div class="container mb-2">
             <div class="titulo_noticia">
 
                 <a href="#" class="regresar"><i class="fa-solid fa-angle-left"></i></a>
 
                 <h1>{{ self.custom_title }}</h1>
-    
-                <ul>
-                    {% for item in categorias.all %}
-                        <li>{{ item.categorias.name }}</li>
-                    {% endfor %}
-                </ul>
-    
-                </p>
                 
+                <div class="tarjeta_info">
+
+                    <p><i class="fa-solid fa-clock"></i> Hours ago </p>
+
+                    <p><i class="fa-solid fa-tags"></i> Categorías:                      
+                        {% for item in self.categoria_noticia.all %}
+                        {{ item.categoria.name }}
+                        {% endfor %}
+                    </p>
+
+                    <p><i class="fa-solid fa-comment"></i> Comentarios: 0</p>
+
+                </div>
+
             </div>
         </div>
 

@@ -19,8 +19,8 @@
                         {# @todo add a summary field to BlogDetailPage; make it a RichTextField with only Bold and Italic enabled. #}
                             {% comment %}  {% endcomment %}
                             <ul>
-                                {% for categoria in categorias.all %}
-                                    <li>something</li>
+                                {% for categoria in categoria_noticia %}
+                                    <li>{{ categoria.name }}</li>
                                 {% endfor %}
                             </ul>
                         <div class="tarjeta_contenido"> 
