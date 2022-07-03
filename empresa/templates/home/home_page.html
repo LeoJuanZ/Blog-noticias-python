@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load wagtailimages_tags %}
+
+{% block content %}
+
+    <div class="contenedor tarjetas mt-4 mb-4">
+        {% for post in posts %}
+            <div class="fila_tarjetas clearfix">
+                <div class="col_tarjeta_img">
+                    {% image post.blog_image fill-450x450 as blog_img %}
+                    <a href="{{ post.url }}">
+                        <img class="tarjeta_imagen" src="{{ blog_img.url }}" alt="{{ blog_img.alt }}">
+                    </a>
+                </div>
+                <div class="col_tarjeta_texto">
+                    <a class="tarjeta_titulo" href="{{ post.url }}">
+                        <h3>{{ post.custom_title }}</h3>
+                        {# @todo add a summary field to BlogDetailPage; make it a RichTextField with only Bold and Italic enabled. #}
+                            {% comment %}  {% endcomment %}
+                        {% for iter in self.categoria.all %}
+                            {{ iter.categoria.name }}
+                        {% endfor %}
+                        <div class="tarjeta_contenido"> 
+                            {{ post.content }} 
+                        </div>
+
+                        <a href="{{ post.url }}" class="leer_mas">Leer más &nbsp;&nbsp;&nbsp; > ></a>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %} 
+
+{% comment %}         
+
+                        <div class="d-flex justify-content-center">
+                            {% for iter in categoria.all %}
+                            <div>
+                                {% if iter.categoria.website %}
+                                    <a href="{{ iter.categoria.website }}">
+                                        {{ iter.categoria.name }}
+                                    </a>
+                                {% else %}
+                                    {{ iter.categoria.name }}
+                                {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div> 
+
+{% endcomment %}

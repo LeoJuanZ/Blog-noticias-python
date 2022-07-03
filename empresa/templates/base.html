@@ -1,0 +1,102 @@
+{% load static wagtailcore_tags wagtailuserbar %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+            {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+            {% wagtail_site as current_site %}
+            {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {# Global stylesheets #}
+        <link href="https://bootswatch.com/5/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/f71f5575d2.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/empresa.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        {% block extra_css %}
+        {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        <div class="barra">
+            <div class="contenedor clearfix">
+                <div class="logo">
+                    <img src="/media/images/logo.png" alt="LOGO">
+                </div>
+
+                <form class="buscador">
+                    <input class="barra_buscador" type="text" placeholder="Búsqueda">
+                    <button class="boton_buscador" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+                
+                <div class="usuario">
+                    <a href="#" class="perfil"><img src="/media/images/perfil_default.jpg"></a>
+                </div>
+            </div> <!-- Contenedor -->
+        </div> <!-- Barra -->
+
+        <div class="navegador">
+            <div class="contenedor">       
+                <nav class="navegacion-principal clearfix">
+                    <button class="marcador">Todo</button>
+                    <button class="marcador">Finanzas</button>
+                    <button class="marcador">Noticias</button>
+                    <button class="marcador">Política</button>
+                    <button class="marcador">Economía</button>
+                    <button class="marcador">Firmas</button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 
+        <div class="navegador">
+            <div class="contenedor">       
+                <nav class="navegacion-principal clearfix">
+                    <ul>
+                        <li><button class="marcador">Todo</button></li>
+                        <li><button class="marcador">Finanzas</button></li>
+                        <li><button class="marcador">Noticias</button></li>
+                        <li><button class="marcador">Politica</button></li>
+                        <li><button class="marcador">Economia</button></li>
+                        <li><button class="marcador">Firmas</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </div> 
+        TEST --> 
+
+        {% wagtailuserbar %}
+
+
+        <!-- ENTRADA DE EDICIÓN DE WAGTAIL EN HOME -->
+
+        {% block content %}{% endblock %}
+
+        {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/empresa.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
+        {% block extra_js %}
+        {# Override this in templates to add extra javascript #}
+        {% endblock %}
+
+        <footer class="site-footer">
+            <div class="contenedor clearfix">
+                <p class="copyright">Derechos reservados empresa 2021</p>
+                <button class="boton_subir" id="subir" type="button" onclick="topFunction()"><i class="fa-solid fa-arrow-up"></i></button>
+            </div>
+        </footer>
+    </body>
+</html>
