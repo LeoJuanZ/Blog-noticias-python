@@ -18,9 +18,11 @@
                         <h3>{{ post.custom_title }}</h3>
                         {# @todo add a summary field to BlogDetailPage; make it a RichTextField with only Bold and Italic enabled. #}
                             {% comment %}  {% endcomment %}
-                        {% for iter in self.categoria.all %}
-                            {{ iter.categoria.name }}
-                        {% endfor %}
+                            <ul>
+                                {% for categoria in categorias.all %}
+                                    <li>something</li>
+                                {% endfor %}
+                            </ul>
                         <div class="tarjeta_contenido"> 
                             {{ post.content }} 
                         </div>
