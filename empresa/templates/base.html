@@ -31,11 +31,15 @@
         <div class="barra">
             <div class="contenedor clearfix">
                 <div class="logo">
-                    <img src="/media/images/logo.png" alt="LOGO">
+                    <a href="/"><img src="/media/images/logo.png" alt="LOGO"></a>
                 </div>
 
-                <form class="buscador">
-                    <input class="barra_buscador" type="text" placeholder="Búsqueda">
+                <form 
+                    method="post" 
+                    onSubmit="return doFunction();" 
+                    class="buscador"
+                >
+                    <input id="text-value" class="barra_buscador" type="text" placeholder="Búsqueda">
                     <button class="boton_buscador" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 
@@ -57,23 +61,6 @@
                 </nav>
             </div>
         </div>
-
-        <!-- 
-        <div class="navegador">
-            <div class="contenedor">       
-                <nav class="navegacion-principal clearfix">
-                    <ul>
-                        <li><button class="marcador">Todo</button></li>
-                        <li><button class="marcador">Finanzas</button></li>
-                        <li><button class="marcador">Noticias</button></li>
-                        <li><button class="marcador">Politica</button></li>
-                        <li><button class="marcador">Economia</button></li>
-                        <li><button class="marcador">Firmas</button></li>
-                    </ul>
-                </nav>
-            </div>
-        </div> 
-        TEST --> 
 
         {% wagtailuserbar %}
 

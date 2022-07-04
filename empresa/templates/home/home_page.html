@@ -16,19 +16,25 @@
                 <div class="col_tarjeta_texto">
                     <a class="tarjeta_titulo" href="{{ post.url }}">
                         <h3>{{ post.custom_title }}</h3>
-                        {# @todo add a summary field to BlogDetailPage; make it a RichTextField with only Bold and Italic enabled. #}
-                            {% comment %}  {% endcomment %}
-                            <ul>
-                                {% for categoria in categoria_noticia %}
-                                    <li>{{ categoria.name }}</li>
+                    </a>
+                        <div class="tarjeta_info">
+
+                            <p><i class="fa-solid fa-clock"></i> Hours ago </p>
+        
+                            <p><i class="fa-solid fa-tags"></i> Categorías:                      
+                                {% for cat in post.categories.all %}
+                                <a href="?category={{ cat.slug }}"> {{ cat.name }}</a>
                                 {% endfor %}
-                            </ul>
+                            </p>
+        
+                            <p><i class="fa-solid fa-comment"></i> Comentarios: 0</p>
+        
+                        </div>
                         <div class="tarjeta_contenido"> 
                             {{ post.content }} 
                         </div>
 
                         <a href="{{ post.url }}" class="leer_mas">Leer más &nbsp;&nbsp;&nbsp; > ></a>
-                    </a>
                 </div>
             </div>
         {% endfor %}

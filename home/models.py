@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 from wagtail.models import Page, Orderable
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
@@ -12,45 +13,35 @@ from wagtail.snippets.models import register_snippet
 
 from streams import blocks
 
-class CategoriasOrdenables(Orderable):
-    """Nos deja seleccionar uno o más categorias para la noticia"""
+class NewsCategory(models.Model):
+    """Categorías de snippets"""
 
-    page = ParentalKey("home.BlogDetailPage", related_name="categoria_noticia")
-    categoria = models.ForeignKey(
-        "home.Categorias",
-        on_delete=models.CASCADE,
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(
+        verbose_name="slug",
+        allow_unicode=True,
+        max_length=255,
     )
 
     panels = [
-        SnippetChooserPanel("categoria"),
+        FieldPanel("name"),
+        FieldPanel("slug"),
     ]
 
-class Categorias(models.Model):
-    """Snippets"""
-
-    name = models.CharField(max_length=100)
-
-    panels = FieldPanel("name"),
+    class Meta:
+        verbose_name = "Categoría de noticia"
+        verbose_name_plural = "Categorías de noticias"
+        ordering = ["name"]
 
     def __str__(self):
-        """String repr of this class."""
         return self.name
 
-    class Meta:  # noqa
-        verbose_name = "Categoría"
-        verbose_name_plural = "Categorías"
-
-
-register_snippet(Categorias)
+register_snippet(NewsCategory)
 
 class HomePage(Page):
     """home page model"""
     template = "home/home_page.html"
     max_count = 1
-
-    categories = ParentalManyToManyField('home.Categorias', blank=True)
-
-
 
     banner_cta = models.ForeignKey(
         "wagtailcore.Page",
@@ -76,9 +67,13 @@ class HomePage(Page):
     def get_context(self, request, *args, **kwargs):
         """Adding custom stuff to our context."""
         context = super().get_context(request, *args, **kwargs)
-        context["posts"] = BlogDetailPage.objects.live().public()
 
-        context["categorias"] = Categorias.objects.all()
+        if request.GET.get('category'):
+            context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')])
+        else:
+            context["posts"] = BlogDetailPage.objects.live().public()
+
+        context["categories"] = NewsCategory.objects.all()
         return context
 
     class Meta:
@@ -103,6 +98,8 @@ class BlogDetailPage(Page):
         on_delete=models.SET_NULL,
     )
 
+    categories = ParentalManyToManyField("home.NewsCategory", blank=False)
+
     content = StreamField(
         [
             ("title_and_text", blocks.TitleAndTextBlock()),
@@ -113,15 +110,16 @@ class BlogDetailPage(Page):
         null=True,
         blank=True,
     )
+    
 
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
         ImageChooserPanel("blog_image"),
         MultiFieldPanel(
             [
-                InlinePanel("categoria_noticia", label="Categoría", min_num=1)
+                FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
             ],
-            heading="Categoría(s)"
+            heading="Categorías"
         ),
         StreamFieldPanel("content"),
     ]

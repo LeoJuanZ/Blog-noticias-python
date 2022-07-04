@@ -9,7 +9,7 @@
         <div class="container mb-2">
             <div class="titulo_noticia">
 
-                <a href="#" class="regresar"><i class="fa-solid fa-angle-left"></i></a>
+                <a href="{{ self.get_parent.url }}" class="regresar"><i class="fa-solid fa-angle-left"></i></a>
 
                 <h1>{{ self.custom_title }}</h1>
                 
@@ -18,8 +18,8 @@
                     <p><i class="fa-solid fa-clock"></i> Hours ago </p>
 
                     <p><i class="fa-solid fa-tags"></i> Categorías:                      
-                        {% for item in self.categoria_noticia.all %}
-                        {{ item.categoria.name }}
+                        {% for cat in self.categories.all %}
+                        <a href="{{ self.get_parent.url }}?category={{ cat.slug }}"> {{ cat.name }}</a>
                         {% endfor %}
                     </p>
 

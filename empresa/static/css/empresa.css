@@ -168,9 +168,19 @@
         margin: 0;
     }
 
-    button{
+    button {
         text-decoration: none;
     }
+
+    a {
+        color: #4885ed;
+    }
+    
+    a:hover {
+        color: darkblue;
+    }
+    
+    .tarj
     
     .button {
         background-color: #fe4918;
@@ -407,13 +417,11 @@
     .fila_tarjetas {
         display: flex;
         flex-wrap: wrap;
-    }
-
-    .contenedor.tarjetas {
         background-color: #ffffff;
         border: 1px solid #cccccc;
         box-shadow: 2px 4px 5px #cccccc;
-        border-radius: 0.5em;;
+        border-radius: 0.5em;
+        margin-bottom: 2em;
     }
 
     @media only screen and (min-width: 768px) {
@@ -477,7 +485,6 @@
 
     @media only screen and (min-width: 768px) {
         .tarjeta_contenido {
-            margin-top: 1em;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -485,6 +492,10 @@
             -webkit-box-orient: vertical;
             font-size: 1em;
         }
+    }
+
+    .tarjeta_info {
+        color: #4885ed;
     }
 
     .tarjeta_info p {
@@ -495,6 +506,12 @@
 
     .tarjeta_info p i {
         margin-right: .5em;
+        color: #999;
+    }
+
+    .tarjeta_info p a {
+        margin-left: 0.2em;
+        text-decoration: none;
     }
 
     a.leer_mas{
