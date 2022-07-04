@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+import datetime
 
 from wagtail.models import Page, Orderable
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
@@ -12,6 +13,17 @@ from wagtail.snippets.models import register_snippet
 
 
 from streams import blocks
+
+# class CreationDate(models.Model):
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     panels = [
+#         FieldPanel("date_time"),
+#     ]
+
+#     class Meta:
+#         icon = "placeholder"
+#         label = "Fecha y tiempo de creación"
 
 class NewsCategory(models.Model):
     """Categorías de snippets"""
@@ -70,11 +82,9 @@ class HomePage(Page):
 
         if request.GET.get('category'):
             context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')])
-        else:
-            context["posts"] = BlogDetailPage.objects.live().public()
-
-        if request.GET.get('title'):
+        elif request.GET.get('title'):
             context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')])
+        
         else:
             context["posts"] = BlogDetailPage.objects.live().public()
 
@@ -87,6 +97,8 @@ class HomePage(Page):
 
 class BlogDetailPage(Page):
     """Blog detail page."""
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     custom_title = models.CharField(
         max_length=100,

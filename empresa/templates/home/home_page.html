@@ -19,7 +19,7 @@
                     </a>
                         <div class="tarjeta_info">
 
-                            <p><i class="fa-solid fa-clock"></i> Hours ago </p>
+                            <p><i class="fa-solid fa-clock"></i> {{ post.created_at }} </p>
         
                             <p><i class="fa-solid fa-tags"></i> Categorías:                      
                                 {% for cat in post.categories.all %}
