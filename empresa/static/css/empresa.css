@@ -343,7 +343,7 @@
         background-color: #ffffff;
         border-bottom: 1px solid #cccccc;
         margin-bottom: 3.5em;
-        width: 97%;
+        width: 100%;
         box-shadow: 4px 4px 5px #cccccc
     }
 
@@ -359,7 +359,7 @@
         text-align: center;
     }
   
-    nav.principal-navigation button {
+    a.page_marker {
         font-family: "Oswald", sans-serif;
         color: #222;
         font-size: 1em;
@@ -374,17 +374,17 @@
         border-bottom: 5px solid transparent
     }
     
-    nav.principal-navigation button:hover {
+    a.page_marker:hover {
         border-bottom: 5px solid #222222;
     }
-    nav.principal-navigation button:active {
+    a.page_marker:active {
         border-bottom: 5px solid #ff6600;
     }
-    nav.principal-navigation button:focus {
+    a.page_marker:focus {
         border-bottom: 5px solid #ff6600;
     }
 
-    button.active {
+    a.page_marker.active {
         border-bottom: 5px solid #ff6600!important;
     }
     
@@ -395,7 +395,7 @@
             margin: 0 auto;
         }
 
-        nav.principal-navigation button {
+        a.page_marker {
             margin-right: 10px;
             padding: 10px 10px;
             display: inline-block;
@@ -461,16 +461,25 @@
 
     .card_title h3{
         font-size: 1em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     @media only screen and (min-width: 768px) {
         .card_title h3{
-            font-size: 1.8em;
+            font-size: 1.3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
     }
 
     .card_content {
-        margin-top: 1em;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -495,8 +504,9 @@
     }
 
     .card_info p {
-        margin-right: 1em;
-        margin-top: 1em;
+        font-size: .8em;
+        margin-right: .5em;
+        margin-top: .5em;
         display: inline-flex;
     }
 
@@ -508,6 +518,12 @@
     .card_info p a {
         margin-left: 0.2em;
         text-decoration: none;
+    }
+
+    @media only screen and (min-width: 768px) {
+    .card_info p {
+            font-size: 1em;
+        }
     }
 
     a.read_more{
@@ -530,6 +546,50 @@
         a.read_more{
             display: inline-block;
         }
+    }
+
+    /* Paginación */
+
+    .pagination {
+        place-content: center;
+        margin-bottom: 2em;
+    }
+
+    .pagination li {
+        margin: 0 1em;
+    }
+
+    .page-link {
+        border-radius: 50%!important;
+        padding: 1em 1.5em;
+        color: #222222;
+        background-color: transparent;
+    }
+
+    .page-link:hover, .page-link.before:hover, .page-link.next:hover  {
+        color: #fff;
+        background-color: #4E4E4E;
+        border-color: #4E4E4E;
+    }
+
+    .page-link:active, .page-link.before:active, .page-link.next:active  {
+        box-shadow: none;
+    }
+
+    .page-link:focus, .page-link.before:focus, .page-link.next:focus  {
+        box-shadow: none;
+        box-shadow:0 0 0 .25rem rgba(124, 124, 124, 0.45)
+    }
+
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #4E4E4E;
+        border-color: #4E4E4E;
+    }
+
+    .page-link.before, .page-link.next {
+        background-color: #ffffff;
     }
 
         /* - - Pagina de noticias - - */

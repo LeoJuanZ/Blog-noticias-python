@@ -1,11 +1,9 @@
-
-
-$(document).ready(function() {
-    $('button').first().addClass('active');
-    $('button.page_marker').click(function() {
-        $('button').removeClass('active');
-        $(this).addClass('active');
-    });
+$(document).ready(function () {
+  $("a").first().addClass("active");
+  $("a.page_marker").click(function () {
+    $("a").removeClass("active");
+    $(this).addClass("active");
+  });
 });
 
 function topFunction() {
@@ -13,13 +11,13 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
-function doFunction(){
+function doFunction() {
   var s = document.getElementById("text-value").value;
   var url = "?title=" + s;
-  var win = window.open(url, '_self');
+  var win = window.open(url, "_self");
   return false;
 }
 
 document.getElementById("hide").value = dataURL;
 
-console.log(document.getElementById("hide").value)
+console.log(document.getElementById("hide").value);

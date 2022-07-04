@@ -20,6 +20,7 @@
         <link href="https://bootswatch.com/5/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/f71f5575d2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'css/empresa.css' %}">
+        {% comment %} Carga de Jquery {% endcomment %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         {% block extra_css %}
@@ -53,12 +54,12 @@
         <div class="navigator">
             <div class="container">       
                 <nav class="principal-navigation clearfix">
-                    <button class="page_marker">Todo</button>
-                    <button class="page_marker">Finanzas</button>
-                    <button class="page_marker">Noticias</button>
-                    <button class="page_marker">Política</button>
-                    <button class="page_marker">Economía</button>
-                    <button class="page_marker">Firmas</button>
+                    <a id="all" class="page_marker" href="/">Todo</a>
+                    <a id="finances" class="page_marker" href="?category=finanzas" >Finanzas</a>
+                    <a id="news" class="page_marker" href="?category=noticias">Noticias</a>
+                    <a id="polytics" class="page_marker" href="?category=política">Política</a>
+                    <a id="economy" class="page_marker" href="?category=economía">Economía</a>
+                    <a id="signs" class="page_marker" href="?category=firmas">Firmas</a>
                 </nav>
             </div>
         </div>

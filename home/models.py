@@ -73,7 +73,28 @@ class HomePage(Page):
         context = super().get_context(request, *args, **kwargs)
 
         # Consigue todas las publicaciones de noticias en ORDEN DE PUBLICACIÓN
-        all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+        # all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+
+        if request.GET.get('category'):
+            all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+        elif request.GET.get('title'):
+            all_posts = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
+        
+        else:
+            all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+
+
+        # if request.GET.get('category'):
+        #     context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+        # elif request.GET.get('title'):
+        #     context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
+        
+        # else:
+        #     context["posts"] = BlogDetailPage.objects.live().public()
+        #     all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+
+
+
         # Paginación cada 5 publicaciones
         paginator = Paginator(all_posts, 2)
         # Intentando conseguir el valor de ?page=x
@@ -93,14 +114,6 @@ class HomePage(Page):
         # para llamar las propiedades de los hijos
         context["posts"] = posts
 
-        # if request.GET.get('category'):
-        #     context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')])
-        # elif request.GET.get('title'):
-        #     context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')])
-        
-        # else:
-        #     context["posts"] = BlogDetailPage.objects.live().public()
-
         context["categories"] = NewsCategory.objects.all()
         return context
 
@@ -112,7 +125,6 @@ class BlogDetailPage(Page):
     """Blog detail page."""
 
     created_at_date_time = models.DateTimeField(auto_now_add=True)
-    created_at_date = models.DateField(auto_now_add=True)
 
     custom_title = models.CharField(
         max_length=100,
