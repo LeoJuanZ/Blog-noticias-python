@@ -1,10 +1,10 @@
 
 
 $(document).ready(function() {
-    $('button').first().addClass('activo');
-    $('button.marcador').click(function() {
-        $('button').removeClass('activo');
-        $(this).addClass('activo');
+    $('button').first().addClass('active');
+    $('button.page_marker').click(function() {
+        $('button').removeClass('active');
+        $(this).addClass('active');
     });
 });
 

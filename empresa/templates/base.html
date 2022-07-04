@@ -28,8 +28,8 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        <div class="barra">
-            <div class="contenedor clearfix">
+        <div class="head_bar">
+            <div class="container clearfix">
                 <div class="logo">
                     <a href="/"><img src="/media/images/logo.png" alt="LOGO"></a>
                 </div>
@@ -37,28 +37,28 @@
                 <form 
                     method="post" 
                     onSubmit="return doFunction();" 
-                    class="buscador"
+                    class="searcher"
                 >
                     <input type="hidden" id="hide" name="URL" value="">
-                    <input id="text-value" class="barra_buscador" type="text" placeholder="Búsqueda">
-                    <button class="boton_buscador" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input id="text-value" class="searcher_bar" type="text" placeholder="Búsqueda">
+                    <button class="searcher_button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 
-                <div class="usuario">
-                    <a href="#" class="perfil"><img src="/media/images/perfil_default.jpg"></a>
+                <div class="user">
+                    <a href="#" class="profile"><img src="/media/images/perfil_default.jpg"></a>
                 </div>
-            </div> <!-- Contenedor -->
+            </div> <!-- container -->
         </div> <!-- Barra -->
 
-        <div class="navegador">
-            <div class="contenedor">       
-                <nav class="navegacion-principal clearfix">
-                    <button class="marcador">Todo</button>
-                    <button class="marcador">Finanzas</button>
-                    <button class="marcador">Noticias</button>
-                    <button class="marcador">Política</button>
-                    <button class="marcador">Economía</button>
-                    <button class="marcador">Firmas</button>
+        <div class="navigator">
+            <div class="container">       
+                <nav class="principal-navigation clearfix">
+                    <button class="page_marker">Todo</button>
+                    <button class="page_marker">Finanzas</button>
+                    <button class="page_marker">Noticias</button>
+                    <button class="page_marker">Política</button>
+                    <button class="page_marker">Economía</button>
+                    <button class="page_marker">Firmas</button>
                 </nav>
             </div>
         </div>
@@ -80,10 +80,10 @@
         {# Override this in templates to add extra javascript #}
         {% endblock %}
 
-        <footer class="site-footer">
-            <div class="contenedor clearfix">
+        <footer class="site_footer">
+            <div class="container clearfix">
                 <p class="copyright">Derechos reservados empresa 2021</p>
-                <button class="boton_subir" id="subir" type="button" onclick="topFunction()"><i class="fa-solid fa-arrow-up"></i></button>
+                <button class="up_button" id="up" type="button" onclick="topFunction()"><i class="fa-solid fa-arrow-up"></i></button>
             </div>
         </footer>
     </body>

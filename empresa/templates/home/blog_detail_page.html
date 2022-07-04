@@ -4,16 +4,16 @@
 
 {% block content %}
 
-    <div class="contenedor noticia">
+    <div class="container news">
         
         <div class="container mb-2">
-            <div class="titulo_noticia">
+            <div class="news_title">
 
-                <a href="{{ self.get_parent.url }}" class="regresar"><i class="fa-solid fa-angle-left"></i></a>
+                <a href="{{ self.get_parent.url }}" class="back"><i class="fa-solid fa-angle-left"></i></a>
 
                 <h1>{{ self.custom_title }}</h1>
                 
-                <div class="tarjeta_info">
+                <div class="card_info">
 
                     <p><i class="fa-solid fa-clock"></i> {{ self.created_at }} </p>
 
@@ -31,13 +31,13 @@
         </div>
 
         {% image self.blog_image fill-1100x800 as banner %}
-        <div class="imagen_noticia">
+        <div class="news_image">
             <img src="{{ banner.url }}" alt="{{ banner.alt }}">
         </div>
         
     
         <div class="container">
-            <div class="contenido_noticia">
+            <div class="news_image">
                 {% for block in self.content %}
                     {% include_block block %}
                 {% endfor %}

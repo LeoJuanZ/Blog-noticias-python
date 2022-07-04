@@ -1,29 +1,21 @@
 from django.db import models
 from django import forms
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 import datetime
 
-from wagtail.models import Page, Orderable
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
+
+from wagtail.models import Page, Orderable
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import (InlinePanel, FieldPanel, PageChooserPanel, MultiFieldPanel, StreamFieldPanel)
 from wagtail.images.edit_handlers import ImageChooserPanel
-
 from wagtail.snippets.models import register_snippet
 
-
+# Codigo propio
+# streams/blocks.py
 from streams import blocks
-
-# class CreationDate(models.Model):
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-#     panels = [
-#         FieldPanel("date_time"),
-#     ]
-
-#     class Meta:
-#         icon = "placeholder"
-#         label = "Fecha y tiempo de creación"
 
 class NewsCategory(models.Model):
     """Categorías de snippets"""
@@ -80,13 +72,34 @@ class HomePage(Page):
         """Adding custom stuff to our context."""
         context = super().get_context(request, *args, **kwargs)
 
-        if request.GET.get('category'):
-            context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')])
-        elif request.GET.get('title'):
-            context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')])
+        # Consigue todas las publicaciones de noticias en ORDEN DE PUBLICACIÓN
+        all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+        # Paginación cada 5 publicaciones
+        paginator = Paginator(all_posts, 2)
+        # Intentando conseguir el valor de ?page=x
+        page = request.GET.get("page")
+        try:
+            # Si la pagina existe y ?page=x es un entero
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            # Si ?page=x no es un entero, manda a la primera pagina
+            posts = paginator.page(1)
+        except EmptyPage:
+            # Si ?page=x esta fuera de rango
+            # retorna la ultima pagina
+            posts = paginator.page(paginator.num_pages)
+
+        # "posts" tendra paginas hijos (Child pages); necesitaras usar el .especifico en los templates
+        # para llamar las propiedades de los hijos
+        context["posts"] = posts
+
+        # if request.GET.get('category'):
+        #     context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')])
+        # elif request.GET.get('title'):
+        #     context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')])
         
-        else:
-            context["posts"] = BlogDetailPage.objects.live().public()
+        # else:
+        #     context["posts"] = BlogDetailPage.objects.live().public()
 
         context["categories"] = NewsCategory.objects.all()
         return context
@@ -98,7 +111,8 @@ class HomePage(Page):
 class BlogDetailPage(Page):
     """Blog detail page."""
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at_date_time = models.DateTimeField(auto_now_add=True)
+    created_at_date = models.DateField(auto_now_add=True)
 
     custom_title = models.CharField(
         max_length=100,
