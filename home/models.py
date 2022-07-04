@@ -73,6 +73,11 @@ class HomePage(Page):
         else:
             context["posts"] = BlogDetailPage.objects.live().public()
 
+        if request.GET.get('title'):
+            context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')])
+        else:
+            context["posts"] = BlogDetailPage.objects.live().public()
+
         context["categories"] = NewsCategory.objects.all()
         return context
 

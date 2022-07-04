@@ -20,3 +20,6 @@ function doFunction(){
   return false;
 }
 
+document.getElementById("hide").value = dataURL;
+
+console.log(document.getElementById("hide").value)
