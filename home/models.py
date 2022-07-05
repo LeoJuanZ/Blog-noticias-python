@@ -79,9 +79,14 @@ class HomePage(Page):
 
         if request.GET.get('category'):
             all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
-        elif request.GET.get('title'):
-            all_posts = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
-        
+
+        elif request.GET.get('category','page'):
+            all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+
+    
+        # elif request.GET.get('title'):
+        #     # all_posts = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
+        #     asdaad
         else:
             all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
 
