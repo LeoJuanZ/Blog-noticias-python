@@ -75,6 +75,8 @@ class HomePage(Page):
         # Consigue todas las publicaciones de noticias en ORDEN DE PUBLICACIÓN
         # all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
 
+        print(request)
+
         if request.GET.get('category'):
             all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
         elif request.GET.get('title'):
