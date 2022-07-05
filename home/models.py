@@ -1,110 +1,115 @@
 from django.db import models
+from django import forms
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
-from wagtail.models import Page, Orderable
-from modelcluster.fields import ParentalKey
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.admin.edit_handlers import (InlinePanel, FieldPanel, PageChooserPanel, MultiFieldPanel, StreamFieldPanel)
+from modelcluster.fields import ParentalManyToManyField
+
+from wagtail.models import Page
+from wagtail.core.fields import StreamField
+from wagtail.admin.edit_handlers import (FieldPanel, PageChooserPanel, MultiFieldPanel, StreamFieldPanel)
 from wagtail.images.edit_handlers import ImageChooserPanel
-
 from wagtail.snippets.models import register_snippet
 
-
+# 
+# streams/blocks.py
 from streams import blocks
 
-class CategoriasOrdenables(Orderable):
-    """Nos deja seleccionar uno o más categorias para la noticia"""
+# Category Snippets
+class NewsCategory(models.Model):
 
-    page = ParentalKey("home.BlogDetailPage", related_name="categorias")
-    categoria = models.ForeignKey(
-        "home.Categorias",
-        on_delete=models.CASCADE,
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(
+        verbose_name="slug",
+        allow_unicode=True,
+        max_length=255,
     )
 
     panels = [
-        SnippetChooserPanel("categoria"),
+        FieldPanel("name"),
+        FieldPanel("slug"),
     ]
 
-class Categorias(models.Model):
-    """Snippets"""
-
-    name = models.CharField(max_length=100)
-    website = models.URLField(blank=True, null=True)
-    image = models.ForeignKey(
-        "wagtailimages.Image",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="+",
-    )
-
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldPanel("name"),
-                ImageChooserPanel("image"),
-            ],
-            heading="Nombre e imagen"
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("website"),
-            ],
-            heading="Links"
-        )
-    ]
+    class Meta:
+        verbose_name = "Categoría de noticia"
+        verbose_name_plural = "Categorías de noticias"
+        ordering = ["name"]
 
     def __str__(self):
-        """String repr of this class."""
         return self.name
 
-    class Meta:  # noqa
-        verbose_name = "Categoría"
-        verbose_name_plural = "Categorías"
+register_snippet(NewsCategory)
 
-
-register_snippet(Categorias)
 
 class HomePage(Page):
     """home page model"""
     template = "home/home_page.html"
     max_count = 1
 
-    banner_cta = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+"
-    )
-
-    content = StreamField(
-        [
-            ("cta", blocks.CTABlock())
-        ],
-        null = True,
-        blank = True
-    ) 
-
-    content_panels = Page.content_panels + [
-        PageChooserPanel("banner_cta"),
-        StreamFieldPanel("content"),
-    ]
-
+    # Content searcher and filter
     def get_context(self, request, *args, **kwargs):
-        """Adding custom stuff to our context."""
         context = super().get_context(request, *args, **kwargs)
-        context["posts"] = BlogDetailPage.objects.live().public()
+
+        # Filter #
+        # If get to search a title...
+        if request.GET.get('title'):   
+            # And get a category too...
+            if request.GET.get('category'):
+                # Filter all the posts with titles and the category selected
+                all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+            # And don't get a category...
+            else:
+                # Filter posts only by the title
+                all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().order_by('-first_published_at')
+        else:
+            # If get to search just a category...
+            if request.GET.get('category'):
+                # Filter all the posts on that category
+                all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+            # If theres no search nor filters
+            else:
+                # Bring all the posts on time creation order
+                all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+
+
+        # Pagination#
+        paginator = Paginator(all_posts, 5)
+        # trying to get the value of ?page=x
+        page = request.GET.get("page")
+        try:
+            # If the page exists and ?page=x is an integer
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            # If ?page=x it's not an integer, send to the first page
+            posts = paginator.page(1)
+        except EmptyPage:
+            # If ?page=x it's out of range
+            # Return the last page
+            posts = paginator.page(paginator.num_pages)
+
+        # Context #
+        # Posts
+        context["posts"] = posts
         
-        context["categorias"] = Categorias.objects.all()
+        # Category snippets
+        context["categories"] = NewsCategory.objects.all()
+
+        # Searcher
+        context["title"] = request.GET.get('title') if request.GET.get('title') is not None else ''
+        context["category"] = request.GET.get('category') if request.GET.get('category') is not None else ''
+
         return context
 
     class Meta:
         verbose_name = "Home Page"
         verbose_name_plural="Home Pages"
 
+
 class BlogDetailPage(Page):
     """Blog detail page."""
+    template = "blog/blog_detail_page.html"
+
+    # Time stamp of the creation and publication of the post
+    created_at_date_time = models.DateTimeField(auto_now_add=True)
 
     custom_title = models.CharField(
         max_length=100,
@@ -121,12 +126,11 @@ class BlogDetailPage(Page):
         on_delete=models.SET_NULL,
     )
 
+    categories = ParentalManyToManyField("home.NewsCategory", blank=False)
+
     content = StreamField(
         [
-            ("title_and_text", blocks.TitleAndTextBlock()),
             ("full_richtext", blocks.RichTextBlock()),
-            ("cards", blocks.CardBlock()),
-            ("cta", blocks.CTABlock()),
         ],
         null=True,
         blank=True,
@@ -137,13 +141,29 @@ class BlogDetailPage(Page):
         ImageChooserPanel("blog_image"),
         MultiFieldPanel(
             [
-                InlinePanel("categorias", label="Categoría", min_num=1)
+                FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
             ],
-            heading="Categoría(s)"
+            heading="Categorías"
         ),
         StreamFieldPanel("content"),
     ]
 
-    class Meta:
+    # Internal pagination of siblings
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+
+        if self.get_prev_sibling():
+            context["prev"] = self.get_prev_sibling().url
+        else:
+            context["prev"] = False
+
+        if self.get_next_sibling():
+            context["next"] = self.get_next_sibling().url
+        else:
+            context["next"] = False
+
+        return context
+
+    class Meta: 
         verbose_name = "Pagina de noticia"
         verbose_name_plural="Pagina de noticias"

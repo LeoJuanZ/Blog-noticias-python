@@ -20,6 +20,7 @@
         <link href="https://bootswatch.com/5/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/f71f5575d2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'css/empresa.css' %}">
+        {# Jquery #}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         {% block extra_css %}
@@ -28,57 +29,44 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-        <div class="barra">
-            <div class="contenedor clearfix">
+        <div class="head_bar">
+            <div class="container clearfix">
                 <div class="logo">
-                    <img src="/media/images/logo.png" alt="LOGO">
+                    <a href="/"><img src="/media/images/logo.png" alt="LOGO"></a>
                 </div>
 
-                <form class="buscador">
-                    <input class="barra_buscador" type="text" placeholder="Búsqueda">
-                    <button class="boton_buscador" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <form 
+                    method="post" 
+                    onSubmit="return doFunction();" 
+                    class="searcher"
+                >
+                    <input type="hidden" id="hide" name="URL" value="">
+                    <input id="text-value" class="searcher_bar" type="text" placeholder="Búsqueda">
+                    <button class="searcher_button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 
-                <div class="usuario">
-                    <a href="#" class="perfil"><img src="/media/images/perfil_default.jpg"></a>
+                <div class="user">
+                    <a href="#" class="profile"><img src="/media/images/perfil_default.jpg"></a>
                 </div>
-            </div> <!-- Contenedor -->
-        </div> <!-- Barra -->
+            </div>
+        </div>
 
-        <div class="navegador">
-            <div class="contenedor">       
-                <nav class="navegacion-principal clearfix">
-                    <button class="marcador">Todo</button>
-                    <button class="marcador">Finanzas</button>
-                    <button class="marcador">Noticias</button>
-                    <button class="marcador">Política</button>
-                    <button class="marcador">Economía</button>
-                    <button class="marcador">Firmas</button>
+        <div class="navigator">
+            <div class="container">       
+                <nav class="principal-navigation clearfix">
+                    <a id="todo" class="page_marker" href="/">Todo</a>
+                    <a id="finanzas" class="page_marker" href="/?category=finanzas" >Finanzas</a>
+                    <a id="noticias" class="page_marker" href="/?category=noticias">Noticias</a>
+                    <a id="política" class="page_marker" href="/?category=política">Política</a>
+                    <a id="economía" class="page_marker" href="/?category=economía">Economía</a>
+                    <a id="firmas" class="page_marker" href="/?category=firmas">Firmas</a>
                 </nav>
             </div>
         </div>
 
-        <!-- 
-        <div class="navegador">
-            <div class="contenedor">       
-                <nav class="navegacion-principal clearfix">
-                    <ul>
-                        <li><button class="marcador">Todo</button></li>
-                        <li><button class="marcador">Finanzas</button></li>
-                        <li><button class="marcador">Noticias</button></li>
-                        <li><button class="marcador">Politica</button></li>
-                        <li><button class="marcador">Economia</button></li>
-                        <li><button class="marcador">Firmas</button></li>
-                    </ul>
-                </nav>
-            </div>
-        </div> 
-        TEST --> 
-
         {% wagtailuserbar %}
 
-
-        <!-- ENTRADA DE EDICIÓN DE WAGTAIL EN HOME -->
+        <!-- EDITION ENTRY FOR WAGTAIL ON HOME -->
 
         {% block content %}{% endblock %}
 
@@ -92,10 +80,10 @@
         {# Override this in templates to add extra javascript #}
         {% endblock %}
 
-        <footer class="site-footer">
-            <div class="contenedor clearfix">
+        <footer class="site_footer">
+            <div class="container clearfix">
                 <p class="copyright">Derechos reservados empresa 2021</p>
-                <button class="boton_subir" id="subir" type="button" onclick="topFunction()"><i class="fa-solid fa-arrow-up"></i></button>
+                <button class="up_button" id="up" type="button" onclick="topFunction()"><i class="fa-solid fa-arrow-up"></i></button>
             </div>
         </footer>
     </body>

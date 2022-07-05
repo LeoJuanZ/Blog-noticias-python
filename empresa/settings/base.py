@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import zoneinfo
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -121,13 +122,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "GMT"
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+WAGTAIL_USER_TIME_ZONES = ['America/Chicago', 'Venezuela/Caracas', 'Argentina/Panama']
 
 
 # Static files (CSS, JavaScript, Images)

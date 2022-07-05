@@ -4,34 +4,90 @@
 
 {% block content %}
 
-    <div class="contenedor tarjetas mt-4 mb-4">
+    <div class="container cards mt-4 mb-4">
         {% for post in posts %}
-            <div class="fila_tarjetas clearfix">
-                <div class="col_tarjeta_img">
+            <div class="cards_row clearfix">
+                <div class="col_card_img">
                     {% image post.blog_image fill-450x450 as blog_img %}
                     <a href="{{ post.url }}">
-                        <img class="tarjeta_imagen" src="{{ blog_img.url }}" alt="{{ blog_img.alt }}">
+                        <img class="card_img" src="{{ blog_img.url }}" alt="{{ blog_img.alt }}">
                     </a>
                 </div>
-                <div class="col_tarjeta_texto">
-                    <a class="tarjeta_titulo" href="{{ post.url }}">
+                <div class="col_card_text">
+                    <a class="card_title" href="{{ post.url }}">
                         <h3>{{ post.custom_title }}</h3>
-                        {# @todo add a summary field to BlogDetailPage; make it a RichTextField with only Bold and Italic enabled. #}
-                            {% comment %}  {% endcomment %}
-                        {% for iter in self.categoria.all %}
-                            {{ iter.categoria.name }}
-                        {% endfor %}
-                        <div class="tarjeta_contenido"> 
+                    </a>
+                        <div class="card_info">
+
+                            <p class="card_info_first_line"><i class="fa-solid fa-clock"></i> {{ post.created_at_date_time }} </p>
+        
+                            <p class="card_info_first_line"><i class="fa-solid fa-tags"></i> Categorías:                      
+                                {% for cat in post.categories.all %}
+                                <a href="?category={{ cat.slug }}"> {{ cat.name }}</a>
+                                {% endfor %}
+                            </p>
+        
+                            <p><i class="fa-solid fa-comment"></i> Comentarios: 0</p>
+        
+                        </div>
+                        <div class="card_content"> 
                             {{ post.content }} 
                         </div>
 
-                        <a href="{{ post.url }}" class="leer_mas">Leer más &nbsp;&nbsp;&nbsp; > ></a>
-                    </a>
+                        <a href="{{ post.url }}" class="read_more">Leer más &nbsp;&nbsp;&nbsp; > ></a>
                 </div>
             </div>
         {% endfor %}
     </div>
+
+    {# Only show pagination if there is more than one page to click through #}
+    {% if posts.paginator.num_pages > 1 %}
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-12">
+            <div class="pagination">
+            {% if posts.has_previous %}
+                <li class="page-item">
+                <a href="?category={{ category }}&title={{ title }}&page={{ posts.previous_page_number }}" class="page-link before">
+                    <span><i class="fa-solid fa-angle-left"></i></span>
+                </a>
+                </li>
+            {% endif %}
+
+            {% for page_num in posts.paginator.page_range %}
+                <li class="page-item {% if page_num == posts.number %} active{% endif %}">
+                <a href="?category={{ category }}&title={{ title }}&page={{ page_num }}" class="page-link">
+                    {{ page_num }}
+                </a>
+                </li>
+            {% endfor %}
+
+            {% if posts.has_next %}
+                <li class="page-item">
+                 <a href="?category={{ category }}&title={{ title }}&page={{ posts.next_page_number }}" class="page-link next">
+                    <span><i class="fa-solid fa-angle-right"></i></span>
+                </a>
+                </li>
+            {% endif %}
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock content %} 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% comment %}         
 
