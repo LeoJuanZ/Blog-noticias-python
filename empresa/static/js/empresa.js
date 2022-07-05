@@ -16,7 +16,11 @@ function doFunction() {
 }
 
 $(document).ready(function () {
-  $(`a#${params.category}`).addClass("active")
+  if(!params.category == '') {
+    $(`a#${params.category}`).addClass("active")
+  } else {
+    $(`a#todo`).addClass("active")
+  }
   $("a.page_marker").click(function () {
     $("a").removeClass("active");
     $(this).addClass("active");

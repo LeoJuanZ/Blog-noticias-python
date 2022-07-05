@@ -629,21 +629,19 @@
     /* - News Detail Page - */
 
     .news{
-        padding: 3em;
         background-color: #ffffff;
         border: 1px solid #cccccc;
         box-shadow: 2px 2px 5px #cccccc;
-        margin-bottom: 2em;
     }
 
     .container.news {
         max-width: 1100px;
         border-radius: .5em;
+        margin-bottom: 2em;
     }
 
     .container_news {
-        padding-left: 0px;
-
+        margin: 3em;
     }
 
     a.back {
