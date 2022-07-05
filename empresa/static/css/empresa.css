@@ -314,7 +314,7 @@
 
     /* Principal nav */
 
-    .navigator{
+    .navigator {
         background-color: #ffffff;
         border-bottom: 1px solid #cccccc;
         margin-bottom: 3.5em;
@@ -323,10 +323,19 @@
     }
 
     @media only screen and (min-width: 768px) {
-
-        .navigator{
+        .navigator {
             width: 97%;
             border-right: 1px solid #cccccc;
+        }
+    }
+
+    .navigator .container {
+        width: 30%;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .navigator .container {
+            width: 100%;
         }
     }
 
@@ -338,6 +347,7 @@
         font-family: "Oswald", sans-serif;
         color: #222;
         font-size: 1em;
+        margin-bottom: 0.8em;
         text-transform: uppercase;
         text-decoration: none;
         text-align: center;
@@ -347,6 +357,12 @@
         border: transparent;
         background-color: #ffffff;
         border-bottom: 5px solid transparent
+    }
+
+    @media only screen and (min-width: 768px) {
+        a.page_marker{
+            margin-bottom: 0em;
+        }
     }
     
     a.page_marker:hover {
@@ -644,8 +660,20 @@
         margin: 3em;
     }
 
+    .container_all {
+        display: flex;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 1150px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .container_all {
+            width: 96%;
+        }
+    }
+
     a.back {
-        position: absolute;
         border-radius: .5em;
         max-height: 90px;
         color: #ffffff;
@@ -654,7 +682,24 @@
         text-decoration: none;
         font-size: 1.5em;
         padding: 0.2em 0.8em;
-        left: 4em;
+        position: absolute;
+        margin-top: 3em;
+    }
+
+    .button_position {
+        width: 100%;
+        display: flex;
+        place-content: center;
+        justify-content: space-around;
+    }
+
+    .invisible{
+        visibility: hidden;
+    }
+
+    .button_dimensions{
+        width: 100vh;
+        display: grid;
     }
 
     .news_title h1 {
