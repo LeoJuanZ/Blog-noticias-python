@@ -7,6 +7,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
+from home import models as search_news
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),

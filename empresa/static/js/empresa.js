@@ -1,16 +1,27 @@
+const urlSearchParams = new URLSearchParams(window.location.search);
+
+const params = Object.fromEntries(urlSearchParams.entries());
+
+params.category = params.category?? ''
+
+function doFunction() {
+
+  var s = document.getElementById("text-value").value;
+  var url = `?category=${params.category}&title=${s}`
+
+  console.log(url)
+
+  var win = window.open(url, "_self");
+  return false;
+}
+
 $(document).ready(function () {
-  // switch:
-  //   finanza: $("#finanzas").addClass("active")
-  $("a").first().addClass("active");
+  $(`a#${params.category}`).addClass("active")
   $("a.page_marker").click(function () {
     $("a").removeClass("active");
     $(this).addClass("active");
   });
 });
-
-function next_page() {
-
-}
 
 function navegacion() {
   window.location.search.split("=")[1]
@@ -21,15 +32,4 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
-console.log(window.location.search.split("=")[1])
-
-function doFunction() {
-  var s = document.getElementById("text-value").value;
-  var url = "?title=" + s;
-  var win = window.open(url, "_self");
-  return false;
-}
-
 document.getElementById("hide").value = dataURL;
-
-console.log(document.getElementById("hide").value);

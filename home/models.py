@@ -2,22 +2,18 @@ from django.db import models
 from django import forms
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
-import django_filters
+from modelcluster.fields import ParentalManyToManyField
 
-import datetime
-
-from modelcluster.fields import ParentalKey, ParentalManyToManyField
-
-from wagtail.models import Page, Orderable
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.admin.edit_handlers import (InlinePanel, FieldPanel, PageChooserPanel, MultiFieldPanel, StreamFieldPanel)
+from wagtail.models import Page
+from wagtail.core.fields import StreamField
+from wagtail.admin.edit_handlers import (FieldPanel, PageChooserPanel, MultiFieldPanel, StreamFieldPanel)
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
-# Codigo propio
+# 
 # streams/blocks.py
 from streams import blocks
+
 
 class NewsCategory(models.Model):
     """Categorías de snippets"""
@@ -77,19 +73,19 @@ class HomePage(Page):
 
         # Consigue todas las publicaciones de noticias en ORDEN DE PUBLICACIÓN
         # all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-
-        print(request)
-
-        if request.GET.get('category'):
-            all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
-        # elif request.GET.get('title'):
-        #     # all_posts = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
-
+        if request.GET.get('title'):
+            if request.GET.get('category'):
+                all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+            else:
+                all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().order_by('-first_published_at')
         else:
-            all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+            if request.GET.get('category'):
+                all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
 
+            else:
+                all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
         # Paginación cada 5 publicaciones
-        paginator = Paginator(all_posts, 2)
+        paginator = Paginator(all_posts, 5)
         # Intentando conseguir el valor de ?page=x
         page = request.GET.get("page")
         try:
@@ -105,14 +101,21 @@ class HomePage(Page):
 
         # "posts" tendra paginas hijos (Child pages); necesitaras usar el .especifico en los templates
         # para llamar las propiedades de los hijos
+
+
         context["posts"] = posts
 
         context["categories"] = NewsCategory.objects.all()
+
+        context["title"] = request.GET.get('title') if request.GET.get('title') is not None else ''
+
+        context["category"] = request.GET.get('category') if request.GET.get('category') is not None else ''
         return context
 
     class Meta:
         verbose_name = "Home Page"
         verbose_name_plural="Home Pages"
+
 
 class BlogDetailPage(Page):
     """Blog detail page."""
@@ -146,7 +149,6 @@ class BlogDetailPage(Page):
         null=True,
         blank=True,
     )
-    
 
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
@@ -160,6 +162,21 @@ class BlogDetailPage(Page):
         StreamFieldPanel("content"),
     ]
 
-    class Meta:
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request)
+
+        if self.get_prev_sibling():
+            context["prev"] = self.get_prev_sibling().url
+        else:
+            context["prev"] = False
+
+        if self.get_next_sibling():
+            context["next"] = self.get_next_sibling().url
+        else:
+            context["next"] = False
+
+        return context
+
+    class Meta: 
         verbose_name = "Pagina de noticia"
         verbose_name_plural="Pagina de noticias"

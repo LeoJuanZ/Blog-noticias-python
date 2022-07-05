@@ -294,7 +294,7 @@
         top: 10px;
         right: 30px;
         border-radius: 5rem;
-        padding: 8px 15px;
+        padding: 10px 15px;
         display: inline-block;
         font-weight: 400;
         line-height: 1.5;
@@ -452,6 +452,7 @@
     .col_card_img a img {
         max-width: 100%;
         border-radius: 0.5em 0px 0px 0.5em;
+        min-height: 100%
     }
 
     a.card_title {
@@ -526,6 +527,10 @@
         }
     }
 
+    p.card_info_first_line {
+        margin-bottom: 0;
+    }
+
     a.read_more{
         display: inline-block;
         margin-top: 20px!important;
@@ -559,6 +564,10 @@
         margin: 0 1em;
     }
 
+    i.fa-solid.fa-angle-left, i.fa-solid.fa-angle-right {
+        font-size: 1.5em;
+    }
+
     .page-link {
         border-radius: 50%!important;
         padding: 1em 1.5em;
@@ -590,11 +599,59 @@
 
     .page-link.before, .page-link.next {
         background-color: #ffffff;
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#d2d6e0+0,eeeeee+100,eeeeee+100 */
+        background: #d2d6e0; /* Old browsers */
+        background: -moz-linear-gradient(top,  #d2d6e0 0%, #eeeeee 100%, #eeeeee 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  #d2d6e0 0%,#eeeeee 100%,#eeeeee 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  #d2d6e0 0%,#eeeeee 100%,#eeeeee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2d6e0', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
     }
 
-        /* - - Pagina de noticias - - */
+    /* News Detail Page next and back buttons */
 
-        /* - - blog_detail_page - - */
+    .previous_button li a, .next_button li a {
+        display: flex;
+        text-decoration: none;
+    }
+
+    .previous_button li a p, .next_button li a p {
+        margin-top: auto;
+        font-weight: bold;
+        font-size: 1.5em;
+        align-self: center;
+        color: #222222;
+    }
+
+    .previous_button li a span i, .next_button li a span i {
+        border-radius: 50%!important;
+        padding: 0.7em 1em;
+        color: #222222;
+        background-color: transparent;
+    }
+
+    .previous_button li a p{
+        padding-left: 0.5em;
+    }
+
+    .next_button li a p {
+        padding-right: 0.5em;
+    }
+    
+    .previous_button {
+        padding-right: 0.5em;
+    }
+
+    .next_button {
+        padding-left: 0.5em;
+    }
+
+    .off_button {
+        opacity: .5;
+    }
+
+        /* - - Page on detail - - */
+
+    /* - News Detail Page - */
 
     .news{
         padding: 3em;
@@ -609,11 +666,12 @@
         border-radius: .5em;
     }
 
-    .container.news .container {
+    .container_news {
         padding-left: 0px;
+
     }
 
-    a.regresar {
+    a.back {
         position: absolute;
         border-radius: .5em;
         max-height: 90px;
@@ -630,8 +688,17 @@
         font-weight: bold;
     }
     
-    .news_img, .news_img img {
-        width: 100%;
+
+
+    .news_img img {
+        min-width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .news_content{
+        font-size: 1em;
+        padding: 2em 0;
     }
 
     /* footer */
