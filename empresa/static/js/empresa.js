@@ -8,6 +8,14 @@ $(document).ready(function () {
   });
 });
 
+function next_page() {
+
+}
+
+function navegacion() {
+  window.location.search.split("=")[1]
+}
+
 function topFunction() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;

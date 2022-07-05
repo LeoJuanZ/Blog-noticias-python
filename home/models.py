@@ -2,6 +2,8 @@ from django.db import models
 from django import forms
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
+import django_filters
+
 import datetime
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
@@ -42,6 +44,7 @@ class NewsCategory(models.Model):
 
 register_snippet(NewsCategory)
 
+
 class HomePage(Page):
     """home page model"""
     template = "home/home_page.html"
@@ -79,28 +82,11 @@ class HomePage(Page):
 
         if request.GET.get('category'):
             all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
-
-        elif request.GET.get('category','page'):
-            all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
-
-    
         # elif request.GET.get('title'):
         #     # all_posts = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
-        #     asdaad
+
         else:
             all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-
-
-        # if request.GET.get('category'):
-        #     context["posts"] = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
-        # elif request.GET.get('title'):
-        #     context["posts"] = BlogDetailPage.objects.live().public().filter(custom_title__in=[request.GET.get('custom_title')]).order_by('-first_published_at')
-        
-        # else:
-        #     context["posts"] = BlogDetailPage.objects.live().public()
-        #     all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-
-
 
         # Paginación cada 5 publicaciones
         paginator = Paginator(all_posts, 2)
