@@ -103,7 +103,7 @@
         font-family: "Open Sans", sans-serif;
     }
 
-    /* Globales */
+    /* Globals */
 
     .container {
         width: 98%;
@@ -127,31 +127,6 @@
         width: 90%;
         /* max-width: 1100px; */
         }
-    }
-    
-    .seccion {
-        padding: 30px 0;
-    }
-    
-    .seccion p {
-        font-size: 1.2em;
-        text-align: center;
-    }
-    
-    h2 {
-        font-family: "Oswald", sans-serif;
-        font-size: 2.4em;
-        text-transform: uppercase;
-        text-align: center;
-    }
-    
-    h2::after {
-        content: "";
-        margin: 0 auto;
-        background-image: url(../img/separador.png);
-        height: 30px;
-        width: 100px;
-        display: block;
     }
     
     h3 {
@@ -228,7 +203,7 @@
     clear: both;
     }
 
-    /* Barra y logo */
+    /* Logo and bar */
 
     div.head_bar {
         background-color: #ffffff;
@@ -253,7 +228,7 @@
         }
     }
 
-    /* Barra de busqueda */
+    /* Searcher bar */
 
     .searcher{
         display: -ms-flexbox!important;
@@ -313,7 +288,7 @@
         }
     }
 
-    /* perfil de usuario */
+    /* User profile */
 
     div.user {
         width: 20%;
@@ -335,9 +310,9 @@
         }
     }
 
-    /* navegacion */
+    /* Navigation */
 
-    /* Nav principal */
+    /* Principal nav */
 
     .navigator{
         background-color: #ffffff;
@@ -406,9 +381,9 @@
         }
     }
 
-    /* - - Pagina Home - - */
+    /* - - Home Page - - */
 
-    /* cards de noticias en cascada */
+    /* cards news on cascade */
 
     .cards_row {
         display: flex;
@@ -553,7 +528,7 @@
         }
     }
 
-    /* Paginación */
+    /* Pagination */
 
     .pagination {
         place-content: center;
@@ -649,7 +624,7 @@
         opacity: .5;
     }
 
-        /* - - Page on detail - - */
+    /* - - Page on detail - - */
 
     /* - News Detail Page - */
 
@@ -687,8 +662,6 @@
     .news_title h1 {
         font-weight: bold;
     }
-    
-
 
     .news_img img {
         min-width: 100%;

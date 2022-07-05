@@ -14,9 +14,8 @@ from wagtail.snippets.models import register_snippet
 # streams/blocks.py
 from streams import blocks
 
-
+# Category Snippets
 class NewsCategory(models.Model):
-    """Categorías de snippets"""
 
     name = models.CharField(max_length=255)
     slug = models.SlugField(
@@ -46,70 +45,58 @@ class HomePage(Page):
     template = "home/home_page.html"
     max_count = 1
 
-    banner_cta = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+"
-    )
-
-    content = StreamField(
-        [
-            ("cta", blocks.CTABlock())
-        ],
-        null = True,
-        blank = True
-    )
-
-    content_panels = Page.content_panels + [
-        PageChooserPanel("banner_cta"),
-        StreamFieldPanel("content"),
-    ]
-
+    # Content searcher and filter
     def get_context(self, request, *args, **kwargs):
-        """Adding custom stuff to our context."""
         context = super().get_context(request, *args, **kwargs)
 
-        # Consigue todas las publicaciones de noticias en ORDEN DE PUBLICACIÓN
-        # all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-        if request.GET.get('title'):
+        # Filter #
+        # If get to search a title...
+        if request.GET.get('title'):   
+            # And get a category too...
             if request.GET.get('category'):
+                # Filter all the posts with titles and the category selected
                 all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+            # And don't get a category...
             else:
+                # Filter posts only by the title
                 all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().order_by('-first_published_at')
         else:
+            # If get to search just a category...
             if request.GET.get('category'):
+                # Filter all the posts on that category
                 all_posts = BlogDetailPage.objects.live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
-
+            # If theres no search nor filters
             else:
+                # Bring all the posts on time creation order
                 all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-        # Paginación cada 5 publicaciones
+
+
+        # Pagination#
         paginator = Paginator(all_posts, 5)
-        # Intentando conseguir el valor de ?page=x
+        # trying to get the value of ?page=x
         page = request.GET.get("page")
         try:
-            # Si la pagina existe y ?page=x es un entero
+            # If the page exists and ?page=x is an integer
             posts = paginator.page(page)
         except PageNotAnInteger:
-            # Si ?page=x no es un entero, manda a la primera pagina
+            # If ?page=x it's not an integer, send to the first page
             posts = paginator.page(1)
         except EmptyPage:
-            # Si ?page=x esta fuera de rango
-            # retorna la ultima pagina
+            # If ?page=x it's out of range
+            # Return the last page
             posts = paginator.page(paginator.num_pages)
 
-        # "posts" tendra paginas hijos (Child pages); necesitaras usar el .especifico en los templates
-        # para llamar las propiedades de los hijos
-
-
+        # Context #
+        # Posts
         context["posts"] = posts
-
+        
+        # Category snippets
         context["categories"] = NewsCategory.objects.all()
 
+        # Searcher
         context["title"] = request.GET.get('title') if request.GET.get('title') is not None else ''
-
         context["category"] = request.GET.get('category') if request.GET.get('category') is not None else ''
+
         return context
 
     class Meta:
@@ -119,7 +106,9 @@ class HomePage(Page):
 
 class BlogDetailPage(Page):
     """Blog detail page."""
+    template = "blog/blog_detail_page.html"
 
+    # Time stamp of the creation and publication of the post
     created_at_date_time = models.DateTimeField(auto_now_add=True)
 
     custom_title = models.CharField(
@@ -141,10 +130,7 @@ class BlogDetailPage(Page):
 
     content = StreamField(
         [
-            ("title_and_text", blocks.TitleAndTextBlock()),
             ("full_richtext", blocks.RichTextBlock()),
-            ("cards", blocks.CardBlock()),
-            ("cta", blocks.CTABlock()),
         ],
         null=True,
         blank=True,
@@ -162,6 +148,7 @@ class BlogDetailPage(Page):
         StreamFieldPanel("content"),
     ]
 
+    # Internal pagination of siblings
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
 

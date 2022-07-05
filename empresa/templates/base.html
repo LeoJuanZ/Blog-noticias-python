@@ -20,7 +20,7 @@
         <link href="https://bootswatch.com/5/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/f71f5575d2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'css/empresa.css' %}">
-        {% comment %} Carga de Jquery {% endcomment %}
+        {# Jquery #}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         {% block extra_css %}
@@ -52,8 +52,8 @@
                 <div class="user">
                     <a href="#" class="profile"><img src="/media/images/perfil_default.jpg"></a>
                 </div>
-            </div> <!-- container -->
-        </div> <!-- Barra -->
+            </div>
+        </div>
 
         <div class="navigator">
             <div class="container">       
@@ -70,8 +70,7 @@
 
         {% wagtailuserbar %}
 
-
-        <!-- ENTRADA DE EDICIÓN DE WAGTAIL EN HOME -->
+        <!-- EDITION ENTRY FOR WAGTAIL ON HOME -->
 
         {% block content %}{% endblock %}
 
