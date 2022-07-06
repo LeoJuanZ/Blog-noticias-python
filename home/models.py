@@ -55,11 +55,11 @@ class HomePage(Page):
             # And get a category too...
             if request.GET.get('category'):
                 # Filter all the posts with titles and the category selected
-                all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
+                all_posts = BlogDetailPage.objects.filter(custom_title__contains = request.GET.get('title')).live().public().filter(categories__slug__in=[request.GET.get('category')]).order_by('-first_published_at')
             # And don't get a category...
             else:
                 # Filter posts only by the title
-                all_posts = BlogDetailPage.objects.filter(custom_title__contains ='ipsum').live().public().order_by('-first_published_at')
+                all_posts = BlogDetailPage.objects.filter(custom_title__contains = request.GET.get('title')).live().public().order_by('-first_published_at')
         else:
             # If get to search just a category...
             if request.GET.get('category'):

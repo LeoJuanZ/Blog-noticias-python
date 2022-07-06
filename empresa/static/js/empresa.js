@@ -7,9 +7,7 @@ params.category = params.category?? ''
 function doFunction() {
 
   var s = document.getElementById("text-value").value;
-  var url = `?category=${params.category}&title=${s}`
-
-  console.log(url)
+  var url = `../?category=${params.category}&title=${s}`
 
   var win = window.open(url, "_self");
   return false;
