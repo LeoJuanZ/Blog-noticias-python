@@ -28,6 +28,7 @@ Bootstrap5, normalize.css and boilerplate where used on this program
 
 For testing purposes, the page already has 10 entries with multiple categories assigned on them
 
+
 Functionalaties:
 
 -The page can filter results based on categories (Snippets)
