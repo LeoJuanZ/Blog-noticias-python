@@ -9,7 +9,7 @@ Use the command 'pipenv shell' inside the project to initiate a virtual environm
 
 Execute the following command for install the newer version of wagtail if don't have it: 'pip install wagtail'
 
-Execute 'pip install -r requirementes.txt'
+Execute 'pip install -r requirements.txt'
 
 Execute 'pip install django-debug-toolbar'
 
