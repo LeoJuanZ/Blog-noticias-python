@@ -1,2 +1,8 @@
 Django>=4.0,<4.1
 wagtail>=3.0,<3.1
+django-allauth>=0.51,<0.52
+
+
+# Dev
+django-extensions>=3.2,<3.3
+django-debug-toolbar>=3.5,<3.6
