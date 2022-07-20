@@ -292,14 +292,17 @@
 
     div.user {
         width: 20%;
-        border: 1px solid #222;
-        border-radius: 50%;
         margin: 5em auto 1em auto;
     }
 
     div.user a img {
         width: 100%;
         border-radius: 50%;
+        border: 1px solid #222;
+    }
+
+    div.user p {
+        text-align: center;
     }
 
     @media only screen and (min-width: 768px) {
@@ -542,6 +545,25 @@
         a.read_more{
             display: inline-block;
         }
+    }
+
+    /* Authentication */
+
+    /* Login */
+
+    .login-container {
+        width: 35%;
+        height: 100%;
+        background-color: #ffffff;
+        margin: 10% auto 0px auto;
+    }
+
+    .login-logo {
+        display: flex;
+    }
+
+    .login-logo a img {
+        max-width: 80%;
     }
 
     /* Pagination */

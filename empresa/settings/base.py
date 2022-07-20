@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from pickle import TRUE
 import zoneinfo
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -58,6 +59,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    #captcha
+    'captcha',
+    'wagtailcaptcha'
 ]
 
 SITE_ID = 1
@@ -204,5 +209,11 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-ACCOUNT_USERNAME_BLACKLIST = ["rafa", "admin", "god"]
-ACCOUNT_USERNAME_MIN_LENGTH = 2
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "god"]
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+#Recaptcha settings
+
+RECAPTCHA_PUBLIC_KEY = "6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF"
+RECAPTCHA_PRIVATE_KEY = "6Lc9IQYhAAAAAChp_PA-JnesTnaPO87PC_zwtTpe"
+NOCAPTCHA = True
