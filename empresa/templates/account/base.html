@@ -9,31 +9,21 @@
     {% endblock %}
     <link href="https://bootswatch.com/5/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/f71f5575d2.js" crossorigin="anonymous"></script>
-    {% comment %} <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {% comment %} <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF"></script>
+    <script>
+    grecaptcha.enterprise.ready(function() {
+        grecaptcha.enterprise.execute('6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF', {action: 'login'}).then(function(token) {
+        ...
+        });
+    }); {% endcomment %}
+    </script>
     <script type="text/javascript">
         var onloadCallback = function() {
-          grecaptcha.render('html_element', {
-            'sitekey' : '6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF'
-          });
-        };
-      </script> 
-      {% endcomment %}
-
-        <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF"></script>
-        <script>
-        grecaptcha.enterprise.ready(function() {
-            grecaptcha.enterprise.execute('6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF', {action: 'login'}).then(function(token) {
-            ...
+            grecaptcha.enterprise.render('html_element', {
+            'sitekey' : ' 6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF',
             });
-        });
-        </script>
-        <script type="text/javascript">
-            var onloadCallback = function() {
-              grecaptcha.enterprise.render('html_element', {
-                'sitekey' : ' 6Lc9IQYhAAAAAHZOh-gNqTVxO5ID7mV0uIv8Q4UF',
-              });
-            };
-          </script>
+        };
+    </script>
 
   </head>
   <body>
